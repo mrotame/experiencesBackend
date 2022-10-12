@@ -1,8 +1,9 @@
 from .models import Experiencias as ExperienciasModel
 from .serializers import ExperienciasSerializer
 from rest_framework import generics, mixins
+from main.default_permissions.isAdmin import IsAdmin
 
-class Experiencias(
+class ExperienciasGenericView(
     mixins.CreateModelMixin,
     mixins.ListModelMixin, 
     mixins.RetrieveModelMixin,
@@ -14,7 +15,7 @@ class Experiencias(
     serializer_class = ExperienciasSerializer
     lookup_field = 'id'
     # authentication_classes = []
-    # permission_classes = []
+    #permission_classes = []
 
     def get(self, request, *args, **kwargs):
         if kwargs.get('id') is not None:
@@ -31,3 +32,7 @@ class Experiencias(
         return self.destroy(request, *args, **kwargs)
 
     
+    def get_permissions(self):
+        if self.request.method != 'GET':
+            permission_classes = [IsAdmin]
+        return [permission() for permission in permission_classes]

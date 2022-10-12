@@ -2,37 +2,9 @@ from django.test import TestCase
 from ..models.users import Users
 from ..views.users import UsersGenericView
 from rest_framework.test import APIRequestFactory
-from rest_framework_simplejwt.tokens import RefreshToken
+from .setupTest import SetupTest
 
-class TestUsersViewPatch(TestCase):
-    url = '/usuarios'
-
-    def criaUsuario(self, email:str, password="12345", admin:bool=False)->Users:
-        user = Users.objects.create(
-            email=email,
-            is_active=True,
-            is_superuser=admin,
-            is_staff=admin
-        )
-        user.set_password(password)
-        return user
-
-    def get_tokens_for_user(self, user):
-        refresh = RefreshToken.for_user(user)
-
-        return {
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
-        }
-
-    def setUp(self):
-        self.app = APIRequestFactory()
-        self.view = UsersGenericView.as_view()
-        
-        self.usuarioComum = self.criaUsuario("teste@teste.com")
-        self.usuarioComum2 = self.criaUsuario("teste2@teste.com")
-
-        self.usuarioAdmin = self.criaUsuario("testeadmin@teste.com", admin=True)
+class TestUsersViewPatch(SetupTest, TestCase):
 
     def test_realiza_alteracao_sem_credencial_e_retorna_erro(self):
         req = self.app.patch(self.url)
