@@ -35,4 +35,6 @@ class ExperienciasGenericView(
     def get_permissions(self):
         if self.request.method != 'GET':
             permission_classes = [IsAdmin]
+        else:
+            permission_classes = self.permission_classes
         return [permission() for permission in permission_classes]
