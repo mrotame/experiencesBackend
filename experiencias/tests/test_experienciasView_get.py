@@ -19,7 +19,14 @@ class TestExperienciasViewGet(SetupTest, TestCase):
 
         self.assertEqual(res.status_code,200)
 
-    def test_realiza_busca_com_credencial_e_retorna_200(self):
+    def test_realiza_busca_com_credencial_sem_id_e_retorna_200(self):
+        token = self.get_tokens_for_user(self.usuarioComum)['access']
+        headers = {"HTTP_AUTHORIZATION": f'Bearer {token}'}
+        res = self.app.get(self.url, **headers)
+        self.assertEqual(res.status_code,200)
+
+    def test_realiza_busca_com_credencial_com_id_e_retorna_200(self):
+        url = self.url + f'{self.experiencia.id}/'
         token = self.get_tokens_for_user(self.usuarioComum)['access']
         headers = {"HTTP_AUTHORIZATION": f'Bearer {token}'}
         res = self.app.get(self.url, **headers)

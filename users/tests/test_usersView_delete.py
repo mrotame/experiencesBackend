@@ -15,14 +15,14 @@ class TestUsersViewDelete(SetupTest, TestCase):
         res = self.app.delete(self.url)
         self.assertEqual(res.status_code, 400)
 
-    def test_realiza_request_com_credencial_comum_com_id_de_outro_usuario_e_retorna_erro(self):
+    def test_realiza_request_com_credencial_comum_com_id_de_outro_usuario_e_retorna_erro_403(self):
         url = self.url + f'{self.usuarioComum2.id}/'
         token = self.get_tokens_for_user(self.usuarioComum)['access']
 
-        headers = {"HTTP_AUTHORIZATION":token}
+        headers = {"HTTP_AUTHORIZATION":f'Bearer {token}'}
         res = self.app.delete(url, **headers)
 
-        self.assertEqual(res.status_code, 401)
+        self.assertEqual(res.status_code, 403)
 
     def test_realiza_request_com_credencial_comum_com_proprio_id_e_retorna_200(self):
         url = self.url + f'{self.usuarioComum.id}/'

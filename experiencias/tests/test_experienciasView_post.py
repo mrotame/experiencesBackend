@@ -89,3 +89,13 @@ class TestExperienciasViewPost(SetupTest, TestCase):
         query = Experiencias.objects.filter(nome=self.post_data['nome'])
 
         self.assertEqual(query.count(), 1)
+
+    def test_realiza_criacao_com_credencial_admin_com_json_com_id_e_retorna_201(self):
+        url = self.url + "1/"
+        self.post_data['nome'] = "post test database"
+        token = self.get_tokens_for_user(self.usuarioAdmin)['access']
+
+        headers = {"HTTP_AUTHORIZATION": f'Bearer {token}'}
+        res = self.app.post(url, self.post_data, **headers)
+
+        self.assertEqual(res.status_code, 201)
