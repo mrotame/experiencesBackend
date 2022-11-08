@@ -11,12 +11,11 @@ class Users(AbstractBaseUser,SoftDeleteObject, PermissionsMixin):
     nome: str = models.CharField(_("name"),max_length=100, blank=True, null=True)
     email: str = models.EmailField(_("email address"),max_length=255, unique=True, blank=False, null=False)
     data_registro = models.DateTimeField(_("register date"), default=timezone.now)
-    password: str = models.CharField(_("User's password"), max_length=256, blank=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
 
     USERNAME_FIELD: str = 'email'
-    REQUIRED_FIELDS: List[str] = [password]
+    REQUIRED_FIELDS: List[str] = []
 
     objects = UserManager()
 

@@ -1,5 +1,5 @@
-from .models import Experiencias as ExperienciasModel
-from .serializers import ExperienciasSerializer
+from ..models import Experiencias as ExperienciasModel
+from ..serializers import ExperienciasSerializer
 from rest_framework import generics, mixins
 from main.default_permissions.isAdmin import IsAdmin
 from rest_framework.exceptions import ValidationError

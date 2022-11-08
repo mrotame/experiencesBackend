@@ -4,7 +4,7 @@ from experiencias.models import Experiencias
 from users.models.users import Users
 from rest_framework_simplejwt.tokens import RefreshToken
 from users.views.users import UsersGenericView
-from experiencias.views import ExperienciasGenericView
+from experiencias.views.experienciasView import ExperienciasGenericView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.test import APIClient
 from datetime import datetime, timedelta
@@ -21,7 +21,12 @@ class DefaultTestCase(TestCase):
         logger = logging.getLogger('django.request')
         previous_level = logger.getEffectiveLevel()
         logger.setLevel(logging.ERROR)
+        self.afterSetUp()
         return super().setUp()
+
+    def afterSetUp(self, *args, **kwargs):
+        pass
+
 
     def criaUsuario(self, email:str, password="12345", admin:bool=False)->Users:
         user = Users.objects.create(

@@ -13,4 +13,3 @@ class Experiencias(SoftDeleteObject, models.Model):
     data_inicio: str = models.DateField()
     data_fim: datetime = models.DateField(blank=True, null=True)
     tags: datetime = models.CharField(max_length=2000)
-    data_criacao: datetime = models.DateField(default=timezone.now)
